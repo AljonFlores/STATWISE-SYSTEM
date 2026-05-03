@@ -1,36 +1,450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistical Analysis Tools</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
-        h1 { color: #333; }
-        .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    </style>
+<meta charset="UTF-8">
+<title>STATWISE SYSTEM</title>
+<style>
+body {font-family:'Segoe UI', Arial;margin:20px;background:linear-gradient(135deg,#eaf2ff,#ffffff); user-select:text;} 
+h1{color:#1e3a8a;text-align:center;margin-bottom:10px;letter-spacing:1px;}
+.card{background:white;padding:20px;border-radius:16px;margin-bottom:20px;box-shadow:0 6px 18px rgba(30,58,138,0.15);border-top:6px solid #facc15;}
+select,button,input,textarea{padding:10px;margin-top:6px;width:100%;border-radius:8px;border:2px solid #2563eb;background:#eff6ff;font-size:14px;color:#1e3a8a;}
+button{background:linear-gradient(135deg,#2563eb,#1e40af);color:white;border:none;font-weight:bold;cursor:pointer;}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px;}
+table{width:100%;border-collapse:collapse;margin-top:10px;text-align:center;border-top:3px double #000;border-bottom:3px double #000; user-select:text; cursor:text;}
+th,td{border:none;padding:8px;} th{background:none;color:#000;border-bottom:1px solid #000;font-weight:bold;}
+label{font-weight:bold;color:#1e3a8a;} textarea{min-height:120px;} h2{color:#1e40af;border-left:6px solid #facc15;padding-left:10px;}
+#output{background:#eff6ff;padding:15px;border-radius:10px;border-left:6px solid #2563eb;}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>Statistical Analysis Tools</h1>
-        <section>
-            <h2>Descriptive Statistics</h2>
-            <p>Descriptive statistics provide a summary of the data.</p>
-            <!-- Add more descriptive content and interactive tools here. -->
-        </section>
-        <section>
-            <h2>Reliability Testing</h2>
-            <p>Reliability testing helps assess the consistency of the results.</p>
-            <!-- Add more reliability tests and functionality here. -->
-        </section>
-        <section>
-            <h2>Interactive Features</h2>
-            <p>Use our interactive tools for deeper statistical insights.</p>
-            <!-- Include any JavaScript or interactive tools required. -->
-        </section>
-    </div>
-    <script>
-        // JavaScript functionality for interactive features would go here.
-    </script>
+
+<div id="openingScreen" style="position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1e3a8a,#2563eb);color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;">
+<h1 style="color:white;">STATWISE SYSTEM</h1>
+<p style="font-style:italic;">Precision in Every Statistical Decision</p>
+<button onclick="startSystem()" style="margin-top:20px;width:200px;background:#facc15;color:#1e3a8a;">Enter System</button>
+</div>
+
+<div id="mainSystem" style="display:none;">
+
+<div class="card">
+<h1 onclick="toggleGuide()" style="cursor:pointer;text-decoration:underline;">STATWISE SYSTEM</h1>
+<div id="guide" style="display:none;">
+
+<div style="display:flex; gap:8px; margin-bottom:10px;">
+  <button onclick="showTab('g1',this)">GROUP DIFFERENCE</button>
+  <button onclick="showTab('g2',this)">RELATIONSHIPS (CORRELATION & REGRESSION)</button>
+  <button onclick="showTab('g3',this)">ASSOCIATIONS (CATEGORICAL VARIABLES)</button>
+</div>
+
+<!-- GROUP DIFFERENCE -->
+<div id="g1" class="section">
+<h3>Group Difference</h3>
+<table>
+<tr><th>Parametric</th><th>Nonparametric</th><th># of DV</th><th># of IV</th><th>IV Groups</th><th>DV Level</th><th>IV Level</th><th>Normal</th><th>Purpose</th></tr>
+<tr><td>Independent t-test</td><td>Mann–Whitney U</td><td>1</td><td>1</td><td>2</td><td>Scale</td><td>Nominal</td><td>Yes/No</td><td>2 Independent groups</td></tr>
+<tr><td>Paired t-test</td><td>Wilcoxon Signed-Rank</td><td>1</td><td>1</td><td>Paired</td><td>Scale</td><td>Nominal</td><td>Yes/No</td><td>Paired comparison</td></tr>
+<tr><td>One-way ANOVA</td><td>Kruskal–Wallis</td><td>1</td><td>1</td><td>3+</td><td>Scale</td><td>Nominal</td><td>Yes/No</td><td>Compare 3+ groups</td></tr>
+<tr><td>Two-way ANOVA</td><td>No direct equivalent</td><td>1</td><td>2</td><td>-</td><td>Scale</td><td>Nominal</td><td>Yes</td><td>Two IV interaction</td></tr>
+<tr><td>Repeated Measures ANOVA</td><td>Friedman</td><td>1</td><td>1</td><td>Repeated</td><td>Scale</td><td>Nominal</td><td>Yes/No</td><td>Repeated measures</td></tr>
+<tr><td>ANCOVA</td><td>Quade (limited)</td><td>1</td><td>≥1</td><td>-</td><td>Scale</td><td>Nominal + Covariate</td><td>Yes</td><td>Control covariate</td></tr>
+<tr><td>MANOVA</td><td>No direct equivalent</td><td>≥2</td><td>1</td><td>-</td><td>Scale</td><td>Nominal</td><td>Yes</td><td>Multiple DV comparison</td></tr>
+</table>
+</div>
+
+<!-- RELATIONSHIPS (CORRELATION & REGRESSION) -->
+<div id="g2" class="section" style="display:none;">
+<h3>Relationships (Correlation & Regression)</h3>
+<table>
+<tr><th>Parametric</th><th>Alternative</th><th># of DV</th><th># of IV</th><th>IV Groups</th><th>DV Level</th><th>IV Level</th><th>Normal</th><th>Purpose</th></tr>
+<tr><td>Pearson Correlation</td><td>Spearman/Kendall</td><td>1</td><td>1</td><td>-</td><td>Scale</td><td>Scale</td><td>Yes/No</td><td>Measure linear relationship</td></tr>
+<tr><td>Simple Linear Regression</td><td>Nonparametric Regression</td><td>1</td><td>1</td><td>1</td><td>Scale</td><td>Scale</td><td>Yes</td><td>Predict DV from one IV</td></tr>
+<tr><td>Multiple Regression</td><td>Robust Regression</td><td>1</td><td>2+</td><td>-</td><td>Scale</td><td>Mixed</td><td>Yes</td><td>Predict DV from multiple IVs</td></tr>
+</table>
+</div>
+
+<!-- ASSOCIATIONS (CATEGORICAL VARIABLES) -->
+<div id="g3" class="section" style="display:none;">
+<h3>Association (Categorical Variables)</h3>
+<table>
+<tr><th>Primary</th><th>Alternative</th><th># of DV</th><th># of IV</th><th>IV Groups</th><th>DV Level</th><th>IV Level</th><th>Purpose</th></tr>
+<tr><td>Chi-Square Test</td><td>Fisher’s Exact Test</td><td>1</td><td>1</td><td>-</td><td>Nominal</td><td>Nominal</td><td>Test association</td></tr>
+<tr><td>McNemar Test</td><td>Exact McNemar</td><td>1</td><td>1</td><td>Paired</td><td>Nominal</td><td>Ordinal</td><td>Paired categorical change</td></tr>
+</table>
+</div>
+
+</div>
+</div>
+
+<p>Select the characteristics of your study:</p>
+<div class="form-grid">
+<div style="grid-column: span 2;"><label>GOAL</label>
+<select id="purpose">
+<option>N/A</option>
+<option>GROUP DIFFERENCE</option>
+<option>RELATIONSHIPS (CORRELATION & REGRESSION)</option>
+<option>ASSOCIATIONS (CATEGORICAL VARIABLES)</option>
+</select></div>
+<div><label># DV</label><select id="dv">
+<option>N/A</option>
+<option>1</option>
+<option>2+</option>
+<option>≥2</option>
+</select></div>
+<div><label># IV</label><select id="iv">
+<option>N/A</option>
+<option>1</option>
+<option>≥1</option>
+<option>2</option>
+<option>2+</option>
+</select></div>
+<div><label>DV Level</label><select id="dvLevel">
+<option>N/A</option>
+<option>Nominal</option>
+<option>Ordinal</option>
+<option>Scale</option>
+</select></div>
+<div><label>IV Level</label><select id="ivLevel">
+<option>N/A</option>
+<option>Nominal</option>
+<option>Nominal + Covariate</option>
+<option>Ordinal</option>
+<option>Scale</option>
+<option>Mixed</option>
+</select></div>
+<div><label>IV Groups</label><select id="ivGroups">
+<option>N/A</option>
+<option>1</option>
+<option>2</option>
+<option>3+</option>
+<option>Paired</option>
+<option>Repeated</option>
+<option>Multiple Combinations</option>
+</select></div>
+<div><label>Normal?</label><select id="normal">
+<option>N/A</option>
+<option>Yes</option>
+<option>No</option>
+</select></div>
+</div>
+<button onclick="analyze()">Analyze</button>
+<div id="output"></div>
+</div>
+
+<div class="card">
+<h2>Descriptive Statistics</h2>
+<textarea id="dataInput"></textarea>
+<button onclick="loadData()">Load Data</button>
+<div id="variableSetup"></div>
+<button onclick="generateDescriptive()">Generate</button>
+<div id="descOutput"></div>
+</div>
+
+<div class="card">
+<h2>Reliability Test (Cronbach's Alpha)</h2>
+<label>1. Data</label>
+<textarea id="relData"></textarea>
+<button onclick="loadReliability()">Load Data</button>
+<label style="margin-top:10px;display:block;">2. Variable View</label>
+<div id="relVar"></div>
+<button onclick="generateReliability()">Generate</button>
+<div id="relOutput"></div>
+</div>
+
+</div>
+
+<script>
+function startSystem(){document.getElementById('openingScreen').style.display='none';document.getElementById('mainSystem').style.display='block';}
+function toggleGuide(){const g=document.getElementById('guide');g.style.display=g.style.display==='none'?'block':'none';}
+function showTab(id){document.querySelectorAll('#guide .section').forEach(s=>s.style.display='none');document.getElementById(id).style.display='block';}
+
+function analyze(){
+ const goal=document.getElementById('purpose').value;
+ const dv=document.getElementById('dv').value;
+ const iv=document.getElementById('iv').value;
+ const dvLevel=document.getElementById('dvLevel').value;
+ const ivLevel=document.getElementById('ivLevel').value;
+ const groups=document.getElementById('ivGroups').value;
+ const normal=document.getElementById('normal').value;
+
+ let tool='No match',definition='Selected based on study characteristics.',scenario='Automatically matched based on your inputs.',assumptions='Ensure all assumptions for the selected test are satisfied.';
+
+ if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='2'){
+   tool = normal==='Yes' ? 'Independent Samples t-test' : 'Mann–Whitney U-Test';
+ }
+ else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='Paired'){
+   tool = normal==='Yes' ? 'Paired t-test' : 'Wilcoxon Signed-Rank Test' ;
+ }
+ else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='3+'){
+   tool = normal==='Yes' ? 'One-way ANOVA' : 'Kruskal-Wallis';
+ }  
+ else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='3+'){
+   tool = normal==='Yes' ? 'One-way ANOVA' : 'Kruskal-Wallis';
+ }
+ else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='2' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='N/A'){
+   tool = normal==='Yes' ? 'Two-way ANOVA' : 'NO direct Equivalent';
+ }
+  else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='Repeated'){
+   tool = normal==='Yes' ? 'Repeated Measures ANOVA' : 'Friedman';
+ }
+  else if(goal==='GROUP DIFFERENCE' && dv==='1' && iv==='≥1' && dvLevel==='Scale' && ivLevel==='Nominal + Covariate' && groups==='N/A'){
+   tool = normal==='Yes' ? 'ANCOVA (Analysis of Covariance)' : 'Quade (limited)';
+ }
+  else if(goal==='GROUP DIFFERENCE' && dv==='≥2' && iv==='1' && dvLevel==='Scale' && ivLevel==='Nominal' && groups==='N/A'){
+   tool = normal==='Yes' ? 'MANOVA (Multivariate Analysis of Variance)' : 'No direct equivalent';
+ }
+  else if(goal==='RELATIONSHIPS (CORRELATION & REGRESSION)' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Scale' && groups==='N/A'){
+   tool = normal==='Yes' ? 'Pearson Correlation' : 'Spearman Rho/Kendal Tau';
+ }
+  else if(goal==='RELATIONSHIPS (CORRELATION & REGRESSION)' && dv==='1' && iv==='1' && dvLevel==='Scale' && ivLevel==='Scale' && groups==='1'){
+   tool = normal==='Yes' ? 'Simple Linear Regression' : 'Nonparametric Regression';
+ }
+  else if(goal==='RELATIONSHIPS (CORRELATION & REGRESSION)' && dv==='1' && iv==='2+' && dvLevel==='Scale' && ivLevel==='Mixed' && groups==='N/A'){
+   tool = normal==='Yes' ? 'Multiple Regression' : 'Robust Regression';
+ }
+  else if(goal==='ASSOCIATIONS (CATEGORICAL VARIABLES)' && dv==='1' && iv==='1' && dvLevel==='Nominal' && ivLevel==='Nominal' && groups==='N/A'){
+   tool = normal==='Yes' ? 'Chi-square Test' : 'Fishers Exact Test';
+ }
+  else if(goal==='ASSOCIATIONS (CATEGORICAL VARIABLES)' && dv==='1' && iv==='1' && dvLevel==='Nominal' && ivLevel==='Ordinal' && groups==='Paired'){
+   tool = normal==='Yes' ? 'McNemar Test' : 'Exact McNemar';
+ }
+   switch(tool){
+ case 'Independent Samples t-test':
+  definition='A parametric test used to determine whether there is a significant difference between the means of two independent groups.';
+  scenario='Comparing the average income of 4Ps beneficiaries vs non-beneficiaries.';
+  assumptions='• Continuous Dependent Variable\n• Two independent groups\n• Data are normally distributed\n• Homogeneity of variance (equal variances)\n• Observations are ndependence';
+ break;
+ case 'Mann–Whitney U-Test':
+  definition='A nonparametric alternative to the independent t-test used to compare two independent groups when normality is violated.';
+  scenario='Comparing ranked satisfaction levels of two different communities.';
+  assumptions='• DV is ordinal or non-normal scale\n• IV has 2 independent groups\n• Observations are independent\n• Distributions have similar shape (for median comparison)';
+ break;
+ case 'Paired t-test':
+  definition='A parametric test used to compare the means of the same group measured at two different times.';
+  scenario='Comparing income before and after microfinance intervention.';
+  assumptions='• Dependent Variable is continuous\n• Data are paired (same subjects)\n• Differences are normally distributed\n• No extreme outliers';
+ break;
+ case 'Wilcoxon Signed-Rank Test':
+  definition='A nonparametric alternative to the paired t-test used for paired data without normality.';
+  scenario='Comparing pre-test and post-test scores of students when data are skewed.';
+  assumptions='• Paired observations\n• Data are ordinal or non-normal\n• Symmetry of differences (approximate)';
+ break;
+  case 'One-way ANOVA':
+  definition='A parametric test used to compare the means of three or more independent groups.';
+  scenario='(Comparing average income across three provinces in Eastern Visayas.)';
+  assumptions='• DV is continuous\n• IV has 3+ independent groups\n• Normality\n• Homogeneity of variance\n• Independence of observations';
+ break;
+ case 'Kruskal-Wallis':
+  definition='A nonparametric alternative to one-way ANOVA for comparing 3 or more groups.';
+  scenario='Comparing levels of livelihood satisfaction across regions using ranked data.';
+  assumptions='• DV is ordinal or non-normal\n• IV has 3+ groups\n• Independent observations';
+ break;
+ case 'Two-way ANOVA':
+  definition='A parametric test used to examine the effect of two independent variables on one dependent variable, including interaction effects.';
+  scenario='Effect of education level and gender on income.';
+  assumptions='• DV is continuous\n• Two categorical IVs\n• Normality\n• Homogeneity of variance\n• Independence';
+ break;
+  case 'Repeated Measures ANOVA':
+  definition='A parametric test used to compare means when the same subjects are measured under three or more conditions.';
+  scenario='Measuring income at 3 time points (before, during, after program).';
+  assumptions='• Dependen Variable is continuous\n• Repeated observations\n• Normality\n• Sphericity (equal variances of differences)';
+ break;
+  case 'Friedman':
+  definition='A nonparametric alternative to repeated measures ANOVA.';
+  scenario='Comparing ranked performance of teachers across 3 semesters.';
+  assumptions='• Repeated measures\n• Ordinal or non-normal data\n• Same subjects across conditions';
+ break;
+  case 'ANCOVA (Analysis of Covariance)':
+  definition='A parametric test that compares group means while controlling for the effect of a covariate.';
+  scenario='Comparing student performance across schools while controlling for IQ.';
+  assumptions='• Same as ANOVA\n• Covariate is linearly related to DV\n• Homogeneity of regression slopes';
+ break;
+  case 'Quade (limited)':
+  definition='The Quade Test is a nonparametric alternative to ANCOVA used to compare group differences while controlling for a covariate, especially when the assumptions of ANCOVA (e.g., normality) are violated. It ranks the data after adjusting for the covariate and then tests for group differences.';
+  scenario='A researcher compares students’ test scores across three teaching methods, while controlling for IQ level. Since the test scores are not normally distributed, the researcher uses the Quade Test instead of ANCOVA.';
+  assumptions='• DV is ordinal or non-normal continuous\n• IV consists of 2 or more independent groups\n• There is one covariate (continuous variable)\n• Relationship between covariate and DV is monotonic\n• Observations are independent\n• Data can be meaningfully ranked';
+ break;
+  case 'MANOVA (Multivariate Analysis of Variance)':
+  definition='A parametric test used to compare group differences across multiple dependent variables simultaneously.';
+  scenario='Comparing income and savings across regions.';
+  assumptions='• Multiple DVs (continuous)\n• Multivariate normality\n• Homogeneity of covariance matrices\n• Independence';
+ break;
+  case 'Pearson Correlation':
+  definition='Measures the strength and direction of linear relationship between two continuous variables.';
+  scenario='Relationship between education level and income.';
+  assumptions='• Both variables are continuous\n• Linear relationship\n• Normality\n• No significant outliers';
+ break;
+ case 'Spearman Rho/Kendal Tau':
+  definition='Nonparametric measure of monotonic relationship using ranked data.';
+  scenario='Relationship between ranked job satisfaction and years of service.';
+  assumptions='• Ordinal or non-normal data\n• Monotonic relationship';
+ break;
+  case 'Simple Linear Regression':
+  definition='Predicts a dependent variable using one independent variable.';
+  scenario='Predicting income based on years of education.';
+  assumptions='• Linear relationship\n• Normality of residuals\n• Homoscedasticity\n• Independence';
+ break;
+  case 'Nonparametric Regression':
+  definition='A statistical method used to model the relationship between variables without assuming a specific functional form (e.g., linear). It is useful when the relationship is nonlinear or when parametric assumptions are violated.';
+  scenario='A researcher studies the relationship between household income and expenditure, but the pattern is curved (nonlinear). Instead of linear regression, the researcher uses nonparametric regression (e.g., LOESS smoothing) to better capture the trend.';
+  assumptions='• No assumption of linearity\n• No strict requirement of normality\n• Variables are typically continuous\n• Observations are independent\n• Requires adequate sample size for stable estimation\n• Sensitive to bandwidth or smoothing parameter selection';
+ break;
+  case 'Multiple Regression':
+  definition='Predicts a dependent variable using multiple independent variables.';
+  scenario='Predicting income using education, age, and work experience.';
+  assumptions='• Same as simple regression\n• No multicollinearity';
+ break;
+  case 'Robust Regression':
+  definition='A regression method that is resistant to outliers and violations of assumptions.';
+  scenario='Income prediction when data contain extreme values.';
+  assumptions='• Fewer strict assumptions\n• Handles outliers effectively';
+ break;
+ case 'Chi-Square Test of Independence':
+  definition='Tests whether two categorical variables are associated.';
+  scenario='Relationship between gender and employment status.';
+  assumptions='• Both variables are categorical\n• Expected frequency ≥5 (most cells)\n• Independent observations';
+ break;
+  case 'Fisher Exact Test':
+  definition='Exact test for association in small sample categorical data.';
+  scenario='Association between treatment and outcome in small sample study.';
+  assumptions='• Small sample size\n• Categorical variables()';
+ break;
+  case 'McNemar Test':
+  definition='Tests changes in paired categorical data (before–after).';
+  scenario='Change in employment status before and after training.';
+  assumptions='• Paired nominal data\n• Dichotomous variables';
+ break;
+  case 'Exact McNemar':
+  definition='Exact version of McNemar for small samples.';
+  scenario='Same as above with small sample size.';
+  assumptions='• Small paired samples\n• Binary outcomes';
+ break;
+ }
+
+ document.getElementById('output').innerHTML=`<h3>RECOMMENDED ANALYSIS</h3>
+<b>1. STATISTICAL TOOL:</b><br>${tool}<br><i>${definition}</i><br><br>
+<b>2. SCENARIO:</b><br>${scenario}<br><br>
+<b>3. ASSUMPTIONS:</b><br>${assumptions}`;
+}
+
+function parseData(text){return text.split(/\r?\n/).filter(r=>r.trim()).map(r=>r.split(/\t|,/));}
+
+let headers=[],data=[];
+function loadData(){
+ const rows=parseData(document.getElementById('dataInput').value.trim());
+ if(rows.length<2){alert('Invalid data');return;}
+ headers=rows[0]; data=rows.slice(1);
+ let html='<table><tr><th>Variable</th><th>Level</th></tr>';
+ headers.forEach((h,i)=>{
+  html+=`<tr><td contenteditable="true" id="var_${i}">${h}</td><td><select id="level_${i}"><option>Scale</option><option selected>Nominal</option><option>Ordinal</option></select></td></tr>`;
+ });
+ html+='</table>'; document.getElementById('variableSetup').innerHTML=html;
+}
+  function generateDescriptive(){
+ headers=headers.map((h,i)=>{const el=document.getElementById('var_'+i);return el?el.innerText.trim():h;});
+ if(!data.length){alert('Load data first');return;}
+
+ let cat='<table><tr><td colspan="4" style="border-top:3px double #000;"></td></tr><tr><th>Variable</th><th>Indicator</th><th>Frequency</th><th>Percentage</th></tr>';
+ let scale='<table><tr><th>Variable</th><th>Mean</th><th>SD</th></tr>';
+
+ let hasCat=false;
+ let hasScale=false;
+
+ headers.forEach((h,i)=>{
+  const level=document.getElementById('level_'+i).value.toLowerCase();
+  const col=data.map(r=>r[i]);
+
+  if(level==='scale'){
+    const nums=col.map(Number).filter(x=>!isNaN(x));
+    if(nums.length){
+      hasScale=true;
+      const mean=nums.reduce((a,b)=>a+b,0)/nums.length;
+      const sd=Math.sqrt(nums.map(x=>(x-mean)**2).reduce((a,b)=>a+b,0)/(nums.length-1||1));
+      scale+=`<tr><td>${h}</td><td><b>${mean.toFixed(2)}</b></td><td><b>${sd.toFixed(2)}</b></td></tr>`;
+    }
+  } else {
+    let f={}; col.forEach(v=>f[v]=(f[v]||0)+1);
+    const keys=Object.keys(f);
+    if(keys.length){
+      hasCat=true;
+      keys.forEach((k,idx)=>{
+        const rowspan=idx===0?`rowspan="${keys.length}"`:'';
+        cat+=`<tr>${idx===0?`<td ${rowspan}>${h}</td>`:''}<td contenteditable="true">${k}</td><td><b>${f[k]}</b></td><td><b>${((f[k]/col.length)*100).toFixed(2)}%</b></td></tr>`;
+      });
+      cat+=`<tr><td colspan="4" style="border-bottom:1px solid #000;"></td></tr>`;
+    }
+  }
+ });
+
+ cat+='</table>';
+ scale+='</table>';
+
+ let output='';
+ if(hasCat) output+=cat;
+ if(hasScale) output+=(output?'<br>':'')+scale;
+
+ if(!output){output='<b>No applicable data based on selected variable levels.</b>';}
+
+ document.getElementById('descOutput').innerHTML=output;
+}
+
+let relHeaders=[],relDataArr=[];
+function loadReliability(){
+ const text=document.getElementById('relData').value.trim();
+ if(!text){alert('Paste data');return;}
+ const rows=parseData(text);
+ if(rows[0].every(v=>!isNaN(v))){relHeaders=rows[0].map((_,i)=>'Item '+(i+1));relDataArr=rows;}else{relHeaders=rows[0];relDataArr=rows.slice(1);} 
+ let html='<table><tr><th rowspan="2">Variable Name</th><th rowspan="2">Level</th><th colspan="2">Values (Likert Scale)</th></tr><tr><th>Lowest</th><th>Highest</th></tr>';
+ relHeaders.forEach((h,i)=>{
+  html+=`<tr><td contenteditable="true">${h}</td><td><select disabled><option selected>Ordinal</option></select></td><td><select><option selected>1</option><option>2</option></select></td><td><select><option selected>5</option><option>4</option><option>3</option></select></td></tr>`;
+ });
+ html+='</table>'; document.getElementById('relVar').innerHTML=html;
+}
+
+function generateReliability(){
+ if(!relDataArr.length){alert('Load data');return;}
+ const data=relDataArr.map(r=>r.map(Number));
+ const k=data[0].length;
+ let vars=[];
+ for(let j=0;j<k;j++){let col=data.map(r=>r[j]);let m=col.reduce((a,b)=>a+b,0)/col.length;let v=col.reduce((s,x)=>s+(x-m)**2,0)/(col.length-1||1);vars.push(v);} 
+ const totals=data.map(r=>r.reduce((a,b)=>a+b,0));
+ const mt=totals.reduce((a,b)=>a+b,0)/totals.length;
+ const vt=totals.reduce((s,x)=>s+(x-mt)**2,0)/(totals.length-1||1);
+ const alpha=(k/(k-1))*(1-(vars.reduce((a,b)=>a+b,0)/vt));
+ let interp=alpha>=0.9?'Excellent':alpha>=0.8?'Good':alpha>=0.7?'Acceptable':alpha>=0.6?'Questionable':alpha>=0.5?'Poor':'Unacceptable';
+ let narrative=`The computed Cronbach's alpha is ${alpha.toFixed(3)}, which indicates ${interp.toLowerCase()} internal consistency among the items. `;
+ narrative+= alpha<0.70?'This implies that the instrument is not sufficiently reliable for statistical analysis.':'This implies that the instrument is sufficiently reliable for statistical analysis.';
+ document.getElementById('relOutput').innerHTML=`<table><tr><th>Cronbach's Alpha</th><th>Interpretation</th></tr><tr><td><b>${alpha.toFixed(3)}</b></td><td><b>${interp}</b></td></tr></table><p><b>${narrative}</b></p>`;
+}
+
+// FIXED COLUMN COPY
+
+document.addEventListener('copy', function(e){
+  const selection = window.getSelection().toString();
+  if(!selection) return;
+
+  const rows = selection.split('\n').map(r => r.split(/\t|,/));
+  if(rows.length < 2) return;
+
+  const maxCols = Math.max(...rows.map(r => r.length));
+  let transposed = [];
+
+  for(let c=0;c<maxCols;c++){
+    let newRow=[];
+    for(let r=0;r<rows.length;r++){
+      newRow.push(rows[r][c] || '');
+    }
+    transposed.push(newRow.join('\t'));
+  }
+
+  const result = transposed.join('\n');
+  e.clipboardData.setData('text/plain', result);
+  e.preventDefault();
+});
+
+// tests
+console.assert(parseData('A\tB\n1\t2').length===2);
+console.assert(parseData('A,B\n1,2')[0][1]==='B');
+</script>
+
 </body>
 </html>
